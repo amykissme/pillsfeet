@@ -150,6 +150,30 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
 #lb .cap{text-align:center;font-size:17px}#lb .cap b{display:block;font-weight:500}#lb .cap span{color:var(--tx2);font-size:14px}
 #lbx{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 14px);width:42px;height:42px;border-radius:50%;border:0;background:rgba(60,60,67,.6);display:grid;place-items:center}
 #lbx svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.tr{display:flex;align-items:center;gap:8px}
+.topbar h1{font-size:28px}
+.tr .balpill{font-size:16px;padding:6px 11px}
+.stbtn{border:0;border-radius:999px;padding:8px 12px;font-size:14px;letter-spacing:1px;color:#ff8f88;background:rgba(92,34,40,.48);box-shadow:inset 0 0 0 1.3px rgba(255,69,58,.5);cursor:pointer;transition:transform .15s}
+.stbtn:active{transform:scale(.94)}
+.stg7{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.stt{background:var(--s2);border-radius:14px;padding:10px 4px 9px;text-align:center;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--tx2)}
+.stt:last-child{grid-column:span 4;flex-direction:row;justify-content:center;gap:12px;padding:13px}
+.stt b{display:flex;align-items:center;gap:4px;font-size:17px;font-weight:600;color:#8e8e93}
+.stt .stg{font-size:12px;min-height:14px}
+.stt.dn{opacity:.55;box-shadow:inset 0 0 0 1px rgba(180,255,57,.4)}.stt.dn b,.stt.dn .stg{color:#b4ff39}
+.stt.nw{background:rgba(180,255,57,.1);box-shadow:0 0 0 1.5px #b4ff39;color:var(--tx)}.stt.nw b,.stt.nw .stg{color:#b4ff39}
+.stt.lk .gem{filter:grayscale(1) opacity(.6)}
+.stnote{margin-top:16px;color:var(--tx2);font-size:15px;line-height:1.35;padding:10px 12px;border-left:2px solid rgba(255,69,58,.6)}
+.stnote b{color:#ff8f88;font-weight:500}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:8px -18px 0;touch-action:pan-x pan-y}
+.car::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 30px 8px;gap:18px}
+.badge.big{font-size:26px;padding:8px 24px 10px;box-shadow:0 0 34px -8px currentColor}
+.desc{color:var(--tx2);font-size:16px;line-height:1.35;min-height:66px}
+.dots{display:flex;justify-content:center;gap:7px;margin-top:14px}
+.dot{width:7px;height:7px;border-radius:50%;background:#48484a;transition:background .3s,transform .3s}
+.dot.on{background:#fff;transform:scale(1.25)}
+.hint{text-align:center;color:#636366;font-size:13px;margin-top:10px}
 /* gems & titles */
 .gem{width:1.05em;height:1.05em;vertical-align:-.17em}
 .gr{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--tx2)}
@@ -240,7 +264,7 @@ nav.locked button:not([data-i="1"]){opacity:.3}
   <div id="bg"><i class="st" style="left:10%;top:8%;--s:14px;--d:0s"></i><i class="st" style="left:78%;top:14%;--s:10px;--d:-2s"></i><i class="st" style="left:44%;top:30%;--s:9px;--d:-4s"></i><i class="st" style="left:88%;top:52%;--s:15px;--d:-1s"></i><i class="st" style="left:18%;top:66%;--s:11px;--d:-3s"></i><i class="st" style="left:62%;top:84%;--s:13px;--d:-5s"></i></div>
   <div id="views">
     <section class="view active" id="v0">
-      <div class="topbar"><div class="brand"><h1 class="logo"><b>Pills</b><i>Feet</i></h1><svg class="pxp" viewBox="0 0 18 18" aria-hidden="true"><g class="smoke" shape-rendering="crispEdges"><rect class="pf" style="--dx:-1px;animation-delay:0s" x="8.4" y="6" width="1.2" height="1.2"/><rect class="pf" style="--dx:1.4px;animation-delay:.25s" x="9.2" y="6.2" width="1" height="1"/><rect class="pf" style="--dx:-1.5px;animation-delay:.5s" x="7.8" y="6.1" width="1" height="1"/><rect class="pf" style="--dx:.8px;animation-delay:.75s" x="8.6" y="6.4" width="1.4" height="1.4"/></g><g transform="rotate(-40 9 9.5)"><g class="hl" fill="#ffffff"><path d="M9 7H4.5A2.5 2.5 0 0 0 4.5 12H9Z"/></g><g class="hr" fill="#9fa2b0"><path d="M9 7H13.5A2.5 2.5 0 0 1 13.5 12H9Z"/></g></g></svg></div><div class="balpill" id="bal"></div></div>
+      <div class="topbar"><div class="brand"><h1 class="logo"><b>Pills</b><i>Feet</i></h1><svg class="pxp" viewBox="0 0 18 18" aria-hidden="true"><g class="smoke" shape-rendering="crispEdges"><rect class="pf" style="--dx:-1px;animation-delay:0s" x="8.4" y="6" width="1.2" height="1.2"/><rect class="pf" style="--dx:1.4px;animation-delay:.25s" x="9.2" y="6.2" width="1" height="1"/><rect class="pf" style="--dx:-1.5px;animation-delay:.5s" x="7.8" y="6.1" width="1" height="1"/><rect class="pf" style="--dx:.8px;animation-delay:.75s" x="8.6" y="6.4" width="1.4" height="1.4"/></g><g transform="rotate(-40 9 9.5)"><g class="hl" fill="#ffffff"><path d="M9 7H4.5A2.5 2.5 0 0 0 4.5 12H9Z"/></g><g class="hr" fill="#9fa2b0"><path d="M9 7H13.5A2.5 2.5 0 0 1 13.5 12H9Z"/></g></g></svg></div><div class="tr"><button class="stbtn" id="stbtn">СТРИК</button><div class="balpill" id="bal"></div></div></div>
       <p class="sub">Упражнения на сегодня</p>
       <div class="card total"><div class="mot" id="mot"></div><div class="t" id="tot">00:00</div><div class="l">общее время</div><div class="bar"><i id="bar"></i></div><div class="gr"><span class="rew" id="rew"></span></div></div>
       <div id="list"></div>
@@ -322,6 +346,13 @@ const TITLES = [
   {id:'chad', n:'чад', c:'#ff453a', p:600},
   {id:'black', n:'блэкпиллсер', c:'#ff6ec7', p:1200}
 ];
+const DESC = {
+  cope:'Начало пути. Ты ещё уговариваешь себя, что и так сойдёт, но уже делаешь первый шаг.',
+  mog:'Ты не просто выполняешь упражнения, а меняешь черты лица. Взгляд острее, линия челюсти чётче.',
+  king:'Дисциплина стала привычкой. Ты держишь режим, а режим держит тебя.',
+  chad:'Спокойная уверенность на максимуме. Ты просто делаешь свою работу, и результат виден всем.',
+  black:'Скептик до мозга костей: не веришь в чудеса, поэтому каждый день просто делаешь работу.'
+};
 if (!Array.isArray(S.own)){ S.own = ['cope']; S.sel = 'cope'; }
 if (typeof S.gems !== 'number') S.gems = 0;
 const tById = id => TITLES.find(t=>t.id===id) || TITLES[0];
@@ -401,8 +432,8 @@ function payGems(){
 function afterFinish(){
   const s = sess();
   if (s.times.every(x=>x!=null)){
-    s.complete = true; save(); updateLock(); renderList();
-    toast('Всё готово · '+fmt(s.total)); hap('success');
+    s.complete = true; const sr = claimStreak(); save(); updateLock(); renderList();
+    toast(sr ? 'Стрик, день '+sr.day+': +'+sr.r+' гемов' : 'Всё готово · '+fmt(s.total)); hap('success');
     setTimeout(()=>go(1), 900); return;
   }
   save(); renderList();
@@ -572,6 +603,7 @@ $('rgo').onclick = () => {
   renderProfile();
   $('reg').classList.add('out'); setTimeout(()=>$('reg').remove(), 700);
   hap('success');
+  S.streakSeen = dkey(); save(); setTimeout(openStreak, 900);
 };
 
 $('afile').onchange = async e => {
@@ -611,11 +643,18 @@ function openPick(){
   sheetOpen('<div class="shh">Выбери титул</div>'+TITLES.filter(t=>S.own.includes(t.id)).map(t=>
     '<button class="trow pk'+(S.sel===t.id?' sel':'')+'" data-id="'+t.id+'"><span class="badge" style="--tc:'+t.c+'">'+t.n+'</span><span class="chk">'+(S.sel===t.id?'✓':'')+'</span></button>').join(''));
 }
-function openShop(){
-  sheetOpen('<div class="shh">Магазин титулов<span class="shb">'+GEM+' '+S.gems+'</span></div>'+TITLES.map(t=>{
+let shopIdx = 0;
+function openShop(idx){
+  if (typeof idx === 'number') shopIdx = idx;
+  const slides = TITLES.map(t=>{
     const own = S.own.includes(t.id), can = S.gems >= t.p;
-    return '<div class="trow"><span class="badge" style="--tc:'+t.c+'">'+t.n+'</span>'+(own ? '<em class="own">Куплено</em>' : '<button class="buy'+(can?'':' off')+'" data-buy="'+t.id+'">'+t.p+' '+GEM+'</button>')+'</div>';
-  }).join(''));
+    const act = own ? '<em class="own">Куплено</em>' : '<button class="buy'+(can?'':' off')+'" data-buy="'+t.id+'">'+t.p+' '+GEM+'</button>';
+    return '<div class="slide"><span class="badge big" style="--tc:'+t.c+'">'+t.n+'</span><p class="desc">'+DESC[t.id]+'</p>'+act+'</div>';
+  }).join('');
+  const dots = TITLES.map((t,i)=>'<i class="dot'+(i===shopIdx?' on':'')+'"></i>').join('');
+  sheetOpen('<div class="shh">Магазин титулов<span class="shb">'+GEM+' '+S.gems+'</span></div><div class="car" id="car">'+slides+'</div><div class="dots" id="dots">'+dots+'</div><p class="hint">листай влево и вправо</p>');
+  const car = $('car'); car.scrollLeft = shopIdx*car.clientWidth;
+  car.onscroll = () => { const i = Math.round(car.scrollLeft/car.clientWidth); if (i!==shopIdx){ shopIdx = i; document.querySelectorAll('#dots .dot').forEach((d,n)=>d.classList.toggle('on', n===i)); hap('select'); } };
 }
 $('pane').onclick = e => {
   const pk = e.target.closest('.pk');
@@ -627,6 +666,36 @@ $('pane').onclick = e => {
     S.gems -= t.p; S.own.push(t.id); save(); renderBal(); openShop(); buyFx(t);
   }
 };
+const SREW = [20,30,50,60,70,80,100];
+const yday = () => { const d = new Date(); d.setDate(d.getDate()-1); return dkey(d); };
+function streakInfo(){
+  const st = S.streak || {last:null, n:0}, t = dkey();
+  if (st.last===t) return {claimed:st.n, next:st.n%7+1, today:true};
+  if (st.last===yday() && st.n<7) return {claimed:st.n, next:st.n+1, today:false};
+  return {claimed:0, next:1, today:false};
+}
+function claimStreak(){
+  const i = streakInfo(); if (i.today) return null;
+  const r = SREW[i.next-1];
+  S.streak = {last:dkey(), n:i.next}; S.gems += r; save(); renderBal(); renderStreakBtn();
+  return {day:i.next, r};
+}
+function renderStreakBtn(){ const i = streakInfo(); $('stbtn').textContent = 'СТРИК'+(i.claimed ? ' '+i.claimed : ''); }
+function openStreak(){
+  const i = streakInfo();
+  const tiles = SREW.map((r,k)=>{
+    const d = k+1; let cls = 'lk', tag = '';
+    if (d<=i.claimed){ cls = 'dn'; tag = '✓'; } else if (d===i.next){ cls = 'nw'; tag = i.today ? 'завтра' : 'сегодня'; }
+    return '<div class="stt '+cls+'"><span>День '+d+'</span><b>'+GEM+' '+r+'</b><span class="stg">'+tag+'</span></div>';
+  }).join('');
+  sheetOpen('<div class="shh">Стрик<span class="shb">'+(i.claimed ? 'серия: '+i.claimed : 'серия: 0')+'</span></div><div class="stg7">'+tiles+'</div><p class="stnote">Награда за день начисляется, только если ты выполнил <b>все упражнения</b>. Пропустишь день, и стрик начнётся заново с 1 дня.</p>');
+  hap('light');
+}
+$('stbtn').onclick = openStreak;
+renderStreakBtn();
+setTimeout(()=>{
+  if (S.reg && !locked() && S.streakSeen!==dkey() && !$('sheet').classList.contains('open') && !$('warn').classList.contains('on')){ S.streakSeen = dkey(); save(); openStreak(); }
+}, 4400);
 function closeLb(){ $('lb').classList.remove('on'); }
 $('chg').onclick = e => {
   const im = e.target.closest('img.ph'); if (!im) return;
@@ -641,7 +710,7 @@ function buyFx(t){
   [[0,'light'],[1100,'light'],[1650,'light'],[2250,'heavy'],[2550,'success']].forEach(([d,k])=>setTimeout(()=>hap(k), d));
   setTimeout(()=>fx.classList.remove('go'), 4500);
 }
-$('pick').onclick = openPick; $('shop').onclick = openShop;
+$('pick').onclick = openPick; $('shop').onclick = () => openShop(0);
 setSw(); renderBal(); setBadge();
 
 renderList();
