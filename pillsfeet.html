@@ -25,8 +25,8 @@ h1{font-size:34px;font-weight:600;letter-spacing:.5px}
 .card{background:var(--s1);border-radius:var(--r);padding:18px}
 /* tabs */
 nav{position:relative;display:flex;margin:0 16px calc(env(safe-area-inset-bottom,0px) + 10px);padding:6px;background:rgba(44,44,46,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:26px}
-nav .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/3);background:var(--s1);border-radius:20px;transition:transform .45s var(--ease);box-shadow:0 0 0 1px rgba(255,255,255,.06)}
-nav button{position:relative;flex:1;background:none;border:0;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx2);font-size:13px;transition:color .3s}
+nav .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/4);background:var(--s1);border-radius:20px;transition:transform .45s var(--ease);box-shadow:0 0 0 1px rgba(255,255,255,.06)}
+nav button{position:relative;flex:1;background:none;border:0;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx2);font-size:12px;transition:color .3s}
 nav button.on{color:var(--tx)}
 nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 /* exercises */
@@ -80,6 +80,34 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
 .pane .meta{display:flex;justify-content:space-between;margin-top:14px;font-size:18px}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);transform:translate(-50%,-80px);background:var(--s2);padding:11px 20px;border-radius:18px;z-index:9;transition:transform .5s var(--ease);font-size:16px}
 .toast.show{transform:translate(-50%,0)}
+/* lock */
+nav button{transition:color .3s,opacity .4s}
+nav.locked button:not([data-i="1"]){opacity:.3}
+.lockmsg{display:grid;place-items:center;margin-top:22px;height:300px;text-align:center;padding:24px;color:var(--tx2);font-size:18px;line-height:1.3}
+.lockmsg svg{width:36px;height:36px;stroke:var(--tx2);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+/* changes */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.fig{padding:0;overflow:hidden;animation:pop .5s var(--ease)}
+.fig .ph{width:100%;aspect-ratio:3/4;object-fit:cover;display:grid;place-items:center;background:var(--s2);color:var(--tx2);text-align:center;font-size:14px;padding:12px}
+.fig .cp{padding:12px 14px 14px}
+.fig .cp b{display:block;font-size:17px;font-weight:500}
+.fig .cp span{color:var(--tx2);font-size:14px}
+.days{text-align:center;margin-top:18px;color:var(--tx2);font-size:16px}
+/* registration */
+#reg{position:fixed;inset:0;z-index:25;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transition:opacity .5s ease,transform .6s var(--ease)}
+#reg.show{display:flex}
+#reg.out{opacity:0;transform:translateY(30px);pointer-events:none}
+#reg h1{font-size:32px}
+.rp{position:relative;width:132px;height:132px;border-radius:50%;margin:28px 0 22px;border:1.5px dashed #48484a;display:grid;place-items:center;color:var(--tx2);cursor:pointer;overflow:hidden;transition:border-color .3s}
+.rp svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.rp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:pop .45s var(--ease)}
+.rin{width:100%;max-width:320px;background:var(--s1);border:0;outline:0;border-radius:16px;padding:15px 18px;font-size:20px;text-align:center}
+.rin::placeholder{color:#636366}
+#reg .btn{width:100%;max-width:320px;margin-top:14px;padding:15px;font-size:18px}
+.mot{min-height:42px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:16px;line-height:1.25;color:var(--ac);opacity:0;transition:opacity .4s;margin-bottom:6px}
+.mot.on{opacity:1}
+.ava{position:relative;overflow:hidden}
+.ava img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 /* splash */
 #splash{position:fixed;inset:0;z-index:30;background:#000;display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
 #splash.out{opacity:0;visibility:hidden}
@@ -99,12 +127,20 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
 </head>
 <body>
 <div id="splash"><div class="pillwrap"><i class="ring"></i><i class="ring b"></i><div class="capsule"></div></div><div class="sp-t">Pillsfeet</div></div>
+<div id="reg">
+  <h1>Добро пожаловать</h1>
+  <p class="sub">Расскажи о себе, чтобы начать</p>
+  <label class="rp" id="rp"><input type="file" accept="image/*" id="rfile" hidden><svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2l1.3-2h6l1.3 2h1.2A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.5"/></svg></label>
+  <input class="rin" id="rname" placeholder="Твоё имя" maxlength="24" autocomplete="off">
+  <button class="btn go" id="rgo" disabled>Начать</button>
+  <div class="note" id="rnote">Нужны имя и фото</div>
+</div>
 <div id="app">
   <div id="views">
     <section class="view active" id="v0">
       <h1>Pillsfeet</h1>
       <p class="sub">Упражнения на сегодня</p>
-      <div class="card total"><div class="t" id="tot">00:00</div><div class="l">общее время</div><div class="bar"><i id="bar"></i></div></div>
+      <div class="card total"><div class="mot" id="mot"></div><div class="t" id="tot">00:00</div><div class="l">общее время</div><div class="bar"><i id="bar"></i></div></div>
       <div id="list"></div>
     </section>
     <section class="view" id="v1">
@@ -119,12 +155,18 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
       <h2>История</h2>
       <div id="hist"></div>
     </section>
+    <section class="view" id="v3">
+      <h1>Изменения</h1>
+      <p class="sub">Первый день и последний отчёт</p>
+      <div id="chg"></div>
+    </section>
   </div>
   <nav id="nav">
     <div class="pill" id="pill"></div>
     <button class="on" data-i="0"><svg viewBox="0 0 24 24"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>Упражнения</button>
     <button data-i="1"><svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2l1.3-2h6l1.3 2h1.2A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.5"/></svg>Отчёт</button>
     <button data-i="2"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c.8-3.6 3.8-5.5 7.5-5.5s6.7 1.9 7.5 5.5"/></svg>Профиль</button>
+    <button data-i="3"><svg viewBox="0 0 24 24"><path d="M4 7h11M4 12h16M4 17h11"/><path d="m17 5 3 2-3 2"/><path d="m7 15-3 2 3 2"/></svg>Изменения</button>
   </nav>
 </div>
 <div id="sheet"><div class="pane" id="pane"></div></div>
@@ -164,7 +206,14 @@ function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show');
 
 /* ---------- tabs ---------- */
 let cur = 0;
+const locked = () => sess().complete && !S.reports[dkey()];
+function updateLock(){
+  const l = locked();
+  $('nav').classList.toggle('locked', l);
+  try { TG && (l ? TG.enableClosingConfirmation() : TG.disableClosingConfirmation()); } catch(e){}
+}
 function go(i){
+  if (locked() && i!==1){ toast('Сначала загрузи фото отчёта'); try { TG && TG.HapticFeedback && TG.HapticFeedback.notificationOccurred('warning'); } catch(e){} return; }
   if (i===cur) return;
   document.querySelectorAll('.view').forEach((v,n)=>{
     v.classList.toggle('active', n===i);
@@ -175,6 +224,7 @@ function go(i){
   cur = i;
   if (i===1) renderReport();
   if (i===2) renderProfile();
+  if (i===3) renderChanges();
   try { TG && TG.HapticFeedback && TG.HapticFeedback.selectionChanged(); } catch(e){}
 }
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
@@ -182,6 +232,10 @@ document.querySelectorAll('.view').forEach((v,n)=>{ if(n>0) v.classList.add('lef
 document.querySelectorAll('.view').forEach((v,n)=>{ v.classList.remove('left'); });
 
 /* ---------- exercises ---------- */
+const PH = ['Хорошее начало, продолжай','Каждое движение считается','Дыши ровно, не торопись','Ты делаешь это для себя','Маленькие шаги дают результат','Держи темп, у тебя получается','Постоянство сильнее настроения','Ещё немного, ты уже в процессе','Гордись тем, что начал','Сегодняшний ты скажет спасибо'];
+let phI = Math.floor(Math.random()*PH.length), phT = null;
+function showPhrase(){ const m=$('mot'); m.classList.remove('on'); setTimeout(()=>{ m.textContent = PH[phI++ % PH.length]; m.classList.add('on'); }, 400); }
+function startMot(){ showPhrase(); phT = setInterval(showPhrase, 8000); }
 function renderList(){
   const s = sess(), box = $('list');
   box.innerHTML = '';
@@ -195,6 +249,9 @@ function renderList(){
     el.innerHTML = '<div class="n"><b>'+k.t+'</b><span>'+k.s+'</span></div>'+state;
     box.appendChild(el);
   });
+  const started = run || s.times.some(x=>x!=null);
+  if (s.complete){ clearInterval(phT); phT=null; const m=$('mot'); m.textContent='Ты молодец, осталось отправить отчёт'; m.classList.add('on'); }
+  else if (started && !phT) startMot();
   tick();
 }
 $('list').onclick = e => {
@@ -205,7 +262,7 @@ $('list').onclick = e => {
     s.times[i] = Math.round((Date.now()-run.t0)/1000) || 1; run = null;
     s.total = s.times.reduce((a,b)=>a+(b||0),0);
     if (s.times.every(x=>x!=null)){
-      s.complete = true; save(); renderList();
+      s.complete = true; save(); updateLock(); renderList();
       toast('Всё готово · '+fmt(s.total));
       try { TG && TG.HapticFeedback && TG.HapticFeedback.notificationOccurred('success'); } catch(e){}
       setTimeout(()=>go(1), 900);
@@ -225,17 +282,26 @@ setInterval(tick, 250);
 
 /* ---------- report ---------- */
 let photo = null;
-function compress(file){
-  return new Promise((res,rej)=>{
-    const img = new Image(), url = URL.createObjectURL(file);
-    img.onload = ()=>{
-      const m = 900, r = Math.min(1, m/Math.max(img.width,img.height));
-      const c = document.createElement('canvas'); c.width = Math.round(img.width*r); c.height = Math.round(img.height*r);
-      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg',.72));
-    };
-    img.onerror = rej; img.src = url;
-  });
+async function decode(file){
+  if (window.createImageBitmap){ try { return await createImageBitmap(file, {imageOrientation:'from-image'}); } catch(e){ try { return await createImageBitmap(file); } catch(e2){} } }
+  const load = src => new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=src; });
+  const url = URL.createObjectURL(file);
+  try { return await load(url); }
+  catch(e){
+    const data = await new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=rej; fr.readAsDataURL(file); });
+    return await load(data);
+  } finally { URL.revokeObjectURL(url); }
+}
+async function compress(file,m=900){
+  const img = await decode(file);
+  const w = img.width || img.naturalWidth, h = img.height || img.naturalHeight;
+  if (!w || !h) throw new Error('empty');
+  const r = Math.min(1, m/Math.max(w,h));
+  const c = document.createElement('canvas'); c.width = Math.max(1,Math.round(w*r)); c.height = Math.max(1,Math.round(h*r));
+  const x = c.getContext('2d'); x.fillStyle='#000'; x.fillRect(0,0,c.width,c.height);
+  x.drawImage(img,0,0,c.width,c.height);
+  if (img.close) img.close();
+  return c.toDataURL('image/jpeg',.75);
 }
 function renderReport(){
   const k = dkey(), r = S.reports[k], s = sess();
@@ -245,6 +311,10 @@ function renderReport(){
     box.innerHTML = '<div class="card done-box"><img src="'+r.photo+'" alt=""><div><span class="ok-t">Отчёт отправлен</span><span>'+fmt(r.total)+'</span></div></div>';
     return;
   }
+  if (!s.complete){
+    box.innerHTML = '<div class="card lockmsg"><div><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><div>Вы попадёте сюда после выполнения упражнений</div></div></div>';
+    return;
+  }
   box.innerHTML = '<label class="drop" id="drop"><input type="file" accept="image/*" id="file" hidden>'+
     '<svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg><span>Загрузить фото</span></label>'+
     '<button class="btn go main" id="send">Подтвердить отчёт</button><div class="note" id="note"></div>';
@@ -252,13 +322,13 @@ function renderReport(){
   upd();
   $('file').onchange = async e => {
     const f = e.target.files[0]; if (!f) return;
-    try { photo = await compress(f); showPhoto(); upd(); } catch(err){ $('note').textContent = 'Не удалось открыть фото'; }
+    try { photo = await compress(f); showPhoto(); upd(); } catch(err){ $('note').textContent = 'Формат фото не поддерживается, попробуй скриншот или JPG'; }
   };
   $('send').onclick = () => {
     if (!photo || !s.complete) return;
     S.reports[k] = {photo, total:s.total};
     if (!save()){ delete S.reports[k]; toast('Не хватило памяти, попробуй другое фото'); return; }
-    photo = null; renderReport(); renderProfile();
+    photo = null; updateLock(); renderReport(); renderProfile();
     toast('Отчёт сохранён');
     try { TG && TG.HapticFeedback && TG.HapticFeedback.notificationOccurred('success'); } catch(e){}
   };
@@ -270,11 +340,23 @@ function upd(){
   $('note').textContent = !s.complete ? 'Сначала выполни все упражнения' : !photo ? 'Добавь фото, чтобы подтвердить' : '';
 }
 
+/* ---------- changes ---------- */
+function renderChanges(){
+  const keys = Object.keys(S.reports).sort(), lk = keys[keys.length-1], last = lk && S.reports[lk];
+  const days = Math.max(1, Math.round((new Date(dkey()+'T12:00:00') - new Date(S.start+'T12:00:00'))/864e5) + 1);
+  const fig = (img, title, sub, empty) => '<div class="card fig">'+(img ? '<img class="ph" src="'+img+'" alt="">' : '<div class="ph">'+empty+'</div>')+'<div class="cp"><b>'+title+'</b><span>'+sub+'</span></div></div>';
+  $('chg').innerHTML = '<div class="cmp">'+
+    fig(S.avatar, 'Первый день', shortDate(S.start), 'Нет фото')+
+    fig(last && last.photo, 'Последний день', lk ? shortDate(lk) : 'ждём отчёт', 'Появится после первого отчёта')+
+  '</div><div class="days">'+days+' '+(days%10===1&&days%100!==11?'день':(days%10>=2&&days%10<=4&&(days%100<10||days%100>=20)?'дня':'дней'))+' в пути</div>';
+}
+
 /* ---------- profile ---------- */
+function setAva(){ const a=$('ava'); a.textContent = S.avatar ? '' : (S.name.trim()[0] || '?').toUpperCase(); if(S.avatar){ const im=new Image(); im.src=S.avatar; a.appendChild(im);} }
 const fit = () => { const n=$('name'); n.style.width = Math.max(n.value.length, 8)+'ch'; };
 function renderProfile(){
   $('name').value = S.name; fit();
-  $('ava').textContent = (S.name.trim()[0] || '?').toUpperCase();
+  setAva();
   $('since').textContent = 'С нами с '+shortDate(S.start);
   const keys = Object.keys(S.reports).sort().reverse(), h = $('hist');
   h.innerHTML = keys.length ? '' : '<div class="empty">Пока пусто. Первый отчёт появится здесь.</div>';
@@ -285,7 +367,7 @@ function renderProfile(){
     h.appendChild(b);
   });
 }
-$('name').oninput = e => { fit(); S.name = e.target.value; $('ava').textContent = (S.name.trim()[0] || '?').toUpperCase(); save(); };
+$('name').oninput = e => { fit(); S.name = e.target.value; setAva(); save(); };
 function openSheet(k){
   const r = S.reports[k];
   $('pane').innerHTML = '<div class="grab"></div><img src="'+r.photo+'" alt=""><div class="meta"><span>'+shortDate(k)+'</span><span>'+fmt(r.total)+'</span></div>';
@@ -293,7 +375,28 @@ function openSheet(k){
 }
 $('sheet').onclick = e => { if (e.target.id==='sheet') $('sheet').classList.remove('open'); };
 
+/* ---------- registration ---------- */
+let rAva = null;
+function rCheck(){ const ok = $('rname').value.trim() && rAva; $('rgo').disabled = !ok; $('rnote').textContent = ok ? '' : (!$('rname').value.trim() ? 'Впиши имя' : 'Добавь фото'); }
+if (!S.reg){ $('reg').classList.add('show'); $('rname').value = S.name || ''; rCheck(); }
+$('rname').oninput = rCheck;
+$('rfile').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { rAva = await compress(f, 360); const old=$('rp').querySelector('img'); old && old.remove(); const im=new Image(); im.src=rAva; $('rp').appendChild(im); rCheck(); }
+  catch(err){ $('rnote').textContent = 'Формат фото не поддерживается, попробуй скриншот или JPG'; }
+};
+$('rgo').onclick = () => {
+  if ($('rgo').disabled) return;
+  S.name = $('rname').value.trim(); S.avatar = rAva; S.reg = true; S.start = dkey();
+  if (!save()){ toast('Не хватило памяти, выбери другое фото'); S.reg = false; return; }
+  renderProfile();
+  $('reg').classList.add('out'); setTimeout(()=>$('reg').remove(), 700);
+  try { TG && TG.HapticFeedback && TG.HapticFeedback.notificationOccurred('success'); } catch(e){}
+};
+
 renderList();
+updateLock();
+if (locked()) go(1);
 setTimeout(()=>{ $('splash').classList.add('out'); setTimeout(()=>$('splash').remove(),700); }, 3600);
 </script>
 </body>
