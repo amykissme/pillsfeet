@@ -98,9 +98,12 @@ nav.locked button:not([data-i="1"]){opacity:.3}
 #reg.show{display:flex}
 #reg.out{opacity:0;transform:translateY(30px);pointer-events:none}
 #reg h1{font-size:32px}
-.rp{position:relative;width:132px;height:132px;border-radius:50%;margin:28px 0 22px;border:1.5px dashed #48484a;display:grid;place-items:center;color:var(--tx2);cursor:pointer;overflow:hidden;transition:border-color .3s}
+.rp{position:relative;width:210px;height:280px;border-radius:28px;margin:24px 0 8px;border:1.5px dashed #48484a;display:grid;place-items:center;color:var(--tx2);cursor:pointer;overflow:hidden;transition:border-color .3s}
 .rp svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .rp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:pop .45s var(--ease)}
+.step{display:none;flex-direction:column;align-items:center;width:100%}
+.step.on{display:flex;animation:stepin .5s var(--ease)}
+@keyframes stepin{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
 .rin{width:100%;max-width:320px;background:var(--s1);border:0;outline:0;border-radius:16px;padding:15px 18px;font-size:20px;text-align:center}
 .rin::placeholder{color:#636366}
 #reg .btn{width:100%;max-width:320px;margin-top:14px;padding:15px;font-size:18px}
@@ -128,12 +131,19 @@ nav.locked button:not([data-i="1"]){opacity:.3}
 <body>
 <div id="splash"><div class="pillwrap"><i class="ring"></i><i class="ring b"></i><div class="capsule"></div></div><div class="sp-t">Pillsfeet</div></div>
 <div id="reg">
-  <h1>Добро пожаловать</h1>
-  <p class="sub">Расскажи о себе, чтобы начать</p>
-  <label class="rp" id="rp"><input type="file" accept="image/*" id="rfile" hidden><svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2l1.3-2h6l1.3 2h1.2A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.5"/></svg></label>
-  <input class="rin" id="rname" placeholder="Твоё имя" maxlength="24" autocomplete="off">
-  <button class="btn go" id="rgo" disabled>Начать</button>
-  <div class="note" id="rnote">Нужны имя и фото</div>
+  <div class="step on" id="st1">
+    <h1>Добро пожаловать</h1>
+    <p class="sub">Как тебя зовут?</p>
+    <input class="rin" id="rname" placeholder="Твоё имя" maxlength="24" autocomplete="off" style="margin-top:28px">
+    <button class="btn go" id="rnext" disabled>Далее</button>
+  </div>
+  <div class="step" id="st2">
+    <h1>Фото первого дня</h1>
+    <p class="sub">Оно станет точкой отсчёта во вкладке «Изменения»</p>
+    <label class="rp" id="rp"><input type="file" accept="image/*" id="rfile" hidden><svg viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.2l1.3-2h6l1.3 2h1.2A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12.5" cy="12.5" r="3.5"/></svg></label>
+    <button class="btn go" id="rgo" disabled>Начать</button>
+    <div class="note" id="rnote"></div>
+  </div>
 </div>
 <div id="app">
   <div id="views">
@@ -346,13 +356,13 @@ function renderChanges(){
   const days = Math.max(1, Math.round((new Date(dkey()+'T12:00:00') - new Date(S.start+'T12:00:00'))/864e5) + 1);
   const fig = (img, title, sub, empty) => '<div class="card fig">'+(img ? '<img class="ph" src="'+img+'" alt="">' : '<div class="ph">'+empty+'</div>')+'<div class="cp"><b>'+title+'</b><span>'+sub+'</span></div></div>';
   $('chg').innerHTML = '<div class="cmp">'+
-    fig(S.avatar, 'Первый день', shortDate(S.start), 'Нет фото')+
+    fig(S.first || S.avatar, 'Первый день', shortDate(S.start), 'Нет фото')+
     fig(last && last.photo, 'Последний день', lk ? shortDate(lk) : 'ждём отчёт', 'Появится после первого отчёта')+
   '</div><div class="days">'+days+' '+(days%10===1&&days%100!==11?'день':(days%10>=2&&days%10<=4&&(days%100<10||days%100>=20)?'дня':'дней'))+' в пути</div>';
 }
 
 /* ---------- profile ---------- */
-function setAva(){ const a=$('ava'); a.textContent = S.avatar ? '' : (S.name.trim()[0] || '?').toUpperCase(); if(S.avatar){ const im=new Image(); im.src=S.avatar; a.appendChild(im);} }
+function setAva(){ const a=$('ava'); const ph = S.first || S.avatar; a.textContent = ph ? '' : (S.name.trim()[0] || '?').toUpperCase(); if(ph){ const im=new Image(); im.src=ph; a.appendChild(im);} }
 const fit = () => { const n=$('name'); n.style.width = Math.max(n.value.length, 8)+'ch'; };
 function renderProfile(){
   $('name').value = S.name; fit();
@@ -376,18 +386,27 @@ function openSheet(k){
 $('sheet').onclick = e => { if (e.target.id==='sheet') $('sheet').classList.remove('open'); };
 
 /* ---------- registration ---------- */
-let rAva = null;
-function rCheck(){ const ok = $('rname').value.trim() && rAva; $('rgo').disabled = !ok; $('rnote').textContent = ok ? '' : (!$('rname').value.trim() ? 'Впиши имя' : 'Добавь фото'); }
-if (!S.reg){ $('reg').classList.add('show'); $('rname').value = S.name || ''; rCheck(); }
-$('rname').oninput = rCheck;
+let rPhoto = null;
+const r1 = () => { $('rnext').disabled = !$('rname').value.trim(); };
+if (!S.reg){ $('reg').classList.add('show'); $('rname').value = S.name || ''; r1(); }
+$('rname').oninput = r1;
+$('rname').onkeydown = e => { if (e.key==='Enter') $('rnext').click(); };
+$('rnext').onclick = () => {
+  if ($('rnext').disabled) return;
+  $('st1').classList.remove('on'); $('st2').classList.add('on');
+};
 $('rfile').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
-  try { rAva = await compress(f, 360); const old=$('rp').querySelector('img'); old && old.remove(); const im=new Image(); im.src=rAva; $('rp').appendChild(im); rCheck(); }
-  catch(err){ $('rnote').textContent = 'Формат фото не поддерживается, попробуй скриншот или JPG'; }
+  try {
+    rPhoto = await compress(f, 900);
+    const old=$('rp').querySelector('img'); old && old.remove();
+    const im=new Image(); im.src=rPhoto; $('rp').appendChild(im);
+    $('rgo').disabled = false; $('rnote').textContent = '';
+  } catch(err){ $('rnote').textContent = 'Формат фото не поддерживается, попробуй скриншот или JPG'; }
 };
 $('rgo').onclick = () => {
-  if ($('rgo').disabled) return;
-  S.name = $('rname').value.trim(); S.avatar = rAva; S.reg = true; S.start = dkey();
+  if ($('rgo').disabled || !rPhoto) return;
+  S.name = $('rname').value.trim(); S.first = rPhoto; delete S.avatar; S.reg = true; S.start = dkey();
   if (!save()){ toast('Не хватило памяти, выбери другое фото'); S.reg = false; return; }
   renderProfile();
   $('reg').classList.add('out'); setTimeout(()=>$('reg').remove(), 700);
