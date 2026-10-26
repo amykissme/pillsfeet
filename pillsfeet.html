@@ -61,7 +61,9 @@ nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;st
 /* profile */
 .who{display:flex;align-items:center;gap:16px;margin-top:22px}
 .ava{width:68px;height:68px;border-radius:50%;background:var(--s2);display:grid;place-items:center;font-size:30px;font-weight:600;color:var(--ac)}
-.who input{background:none;border:0;outline:0;font-size:26px;font-weight:600;width:100%}
+.nm{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.who input{background:none;border:0;outline:0;font-size:26px;font-weight:600;min-width:0;max-width:100%;width:8ch}
+.badge{flex-shrink:0;padding:3px 12px 4px;border:1.5px solid #8957e5;border-radius:999px;color:#a371f7;font-size:15px;font-weight:500;line-height:1.3}
 .who input::placeholder{color:#48484a}
 h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
 .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:16px 18px;cursor:pointer;width:100%;border:0;text-align:left;transition:transform .15s}
@@ -78,11 +80,25 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
 .pane .meta{display:flex;justify-content:space-between;margin-top:14px;font-size:18px}
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 14px);transform:translate(-50%,-80px);background:var(--s2);padding:11px 20px;border-radius:18px;z-index:9;transition:transform .5s var(--ease);font-size:16px}
 .toast.show{transform:translate(-50%,0)}
+/* splash */
+#splash{position:fixed;inset:0;z-index:30;background:#000;display:grid;place-items:center;transition:opacity .6s ease,visibility .6s}
+#splash.out{opacity:0;visibility:hidden}
+.pillwrap{position:relative;width:180px;height:180px;display:grid;place-items:center}
+.ring{position:absolute;width:110px;height:110px;border-radius:50%;border:1px solid rgba(255,255,255,.35);opacity:0;animation:ring 2s ease-out infinite}
+.ring.b{animation-delay:1s}
+.capsule{position:relative;width:54px;height:128px;border-radius:30px;background:#fff;transform:rotate(40deg);overflow:hidden;animation:beat 2s cubic-bezier(.45,0,.25,1) infinite;box-shadow:0 0 40px rgba(255,255,255,.25)}
+.capsule::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#000;opacity:.9}
+.capsule::after{content:"";position:absolute;left:9px;top:12px;width:7px;height:34px;border-radius:4px;background:rgba(0,0,0,.08)}
+.sp-t{position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 64px);left:0;right:0;text-align:center;font-size:22px;letter-spacing:3px;opacity:0;animation:fadein 1s ease .8s forwards}
+@keyframes beat{0%,100%{transform:rotate(40deg) scale(.94);box-shadow:0 0 24px rgba(255,255,255,.12)}50%{transform:rotate(40deg) scale(1.06);box-shadow:0 0 70px rgba(255,255,255,.4)}}
+@keyframes ring{0%{transform:scale(.7);opacity:.5}100%{transform:scale(2);opacity:0}}
+@keyframes fadein{to{opacity:.9}}
 @keyframes pop{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation:none!important}}
 </style>
 </head>
 <body>
+<div id="splash"><div class="pillwrap"><i class="ring"></i><i class="ring b"></i><div class="capsule"></div></div><div class="sp-t">Pillsfeet</div></div>
 <div id="app">
   <div id="views">
     <section class="view active" id="v0">
@@ -98,7 +114,7 @@ h2{font-size:20px;font-weight:500;margin:30px 0 4px;color:var(--tx2)}
     </section>
     <section class="view" id="v2">
       <h1>Профиль</h1>
-      <div class="who"><div class="ava" id="ava">?</div><input id="name" placeholder="Твоё имя" maxlength="24" autocomplete="off"></div>
+      <div class="who"><div class="ava" id="ava">?</div><div class="nm"><input id="name" placeholder="Твоё имя" maxlength="24" autocomplete="off"><span class="badge">моггер</span></div></div>
       <p class="sub" id="since" style="margin-top:12px"></p>
       <h2>История</h2>
       <div id="hist"></div>
@@ -255,8 +271,9 @@ function upd(){
 }
 
 /* ---------- profile ---------- */
+const fit = () => { const n=$('name'); n.style.width = Math.max(n.value.length, 8)+'ch'; };
 function renderProfile(){
-  $('name').value = S.name;
+  $('name').value = S.name; fit();
   $('ava').textContent = (S.name.trim()[0] || '?').toUpperCase();
   $('since').textContent = 'С нами с '+shortDate(S.start);
   const keys = Object.keys(S.reports).sort().reverse(), h = $('hist');
@@ -268,7 +285,7 @@ function renderProfile(){
     h.appendChild(b);
   });
 }
-$('name').oninput = e => { S.name = e.target.value; $('ava').textContent = (S.name.trim()[0] || '?').toUpperCase(); save(); };
+$('name').oninput = e => { fit(); S.name = e.target.value; $('ava').textContent = (S.name.trim()[0] || '?').toUpperCase(); save(); };
 function openSheet(k){
   const r = S.reports[k];
   $('pane').innerHTML = '<div class="grab"></div><img src="'+r.photo+'" alt=""><div class="meta"><span>'+shortDate(k)+'</span><span>'+fmt(r.total)+'</span></div>';
@@ -277,6 +294,7 @@ function openSheet(k){
 $('sheet').onclick = e => { if (e.target.id==='sheet') $('sheet').classList.remove('open'); };
 
 renderList();
+setTimeout(()=>{ $('splash').classList.add('out'); setTimeout(()=>$('splash').remove(),700); }, 3600);
 </script>
 </body>
 </html>
